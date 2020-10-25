@@ -1,3 +1,9 @@
+# Problem 7 Solution Error:
+should accept negative integer for exponent‣
+AssertionError: expected 0.0016000000000000005 to equal 0.0016
+    at Context.<anonymous> (spec/part1.js:404:35)
+    
+
 # Recursion Prompts
 
 ### **What is this?**
