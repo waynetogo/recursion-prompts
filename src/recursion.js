@@ -137,7 +137,17 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-
+  string = string.replace(/\s/g, '');
+  string = string.toUpperCase();
+  if (string === '' || string.length === 1 || (string.length === 2 && string[0] === string[1])) {
+    return true;
+  } else {
+    if (string[0] !== string[string.length-1]) {
+      return false;
+    } else {
+      return palindrome(string.substring(1, string.length-1));
+    }
+  }
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -146,16 +156,61 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  if (y === 0) {
+    return NaN;
+  }
+  if (x < 0) {
+    return -modulo(-x, y);
+  }
+  if (y < 0) {
+    return modulo(x, -y);
+  }
+  if (x < y) {
+    return x;
+  }
+  return modulo(x-y, y);
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  if (y === 0) {
+    return 0;
+  }
+  if (y > 0) {
+    return x + multiply(x, y-1);
+  }
+  if (x < 0) {
+    return multiply(x, y+1) - x;
+  }
+  if ((x < 0 && y > 0) || (x > 0 && y < 0)) {
+    return multiply(x, y+1) - x;
+  } else {
+     return x + multiply(x, y+1);
+  }
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  if (y === 0) {
+    return NaN;
+  }
+  if (x === y) {
+    return 1;
+  }
+  if (y < 0) {
+    y = -y;
+  }
+  if (x === 0 || x < y) {
+    return 0;
+  }
+  if (x < 0) {
+    x = -x;
+    return -divide(x-y, y) + 1;
+  } else {
+    return divide(x-y, y) + 1;
+  }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
@@ -164,6 +219,18 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+  if (x < 0 || y < 0) {
+    return null;
+  }
+  if (x === y) {
+    return x;
+  }
+  if (x > y) {
+    return gcd(x-y, y);
+  }
+  if (x < y) {
+    return gcd(x, y-x);
+  }
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
