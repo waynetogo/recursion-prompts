@@ -504,18 +504,43 @@ var letterTally = function(str, obj) {
 // compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
 var compress = function(list) {
+  if (list.length === 0) {
+    return [];
+  }
+  var result = compress(list.slice(1));
+  if (list[0] !== result[0]) {
+    result.unshift(list[0]);
+  }
+  return result;
 };
 
 // 33. Augment every element in a list with a new value where each element is an array
 // itself.
 // augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
 var augmentElements = function(array, aug) {
+  if (array.length === 0) {
+    return [];
+  }
+  var result = augmentElements(array.slice(1), aug);
+  array[0].push(aug);
+  result.unshift(array[0]);
+  return result;
 };
 
 // 34. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
 var minimizeZeroes = function(array) {
+  if (array.length === 0) {
+    return [];
+  }
+  var result = minimizeZeroes(array.slice(1));
+
+  if (array[0] !== 0 || ((array[0] === 0 || result[0] === 0) && !(array[0] === 0 && result[0] === 0))) {
+    result.unshift(array[0]);
+  }
+  return result;
+
 };
 
 // 35. Alternate the numbers in an array between positive and negative regardless of
@@ -523,12 +548,50 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+  if (array.length === 0) {
+    return [];
+  }
+  var result = alternateSign(array.slice(0, array.length-1));
+  var length = array.length;
+
+  if (length%2 === 0) {
+    if (array[length-1] > 0) {
+      array[length-1] = -array[length-1];
+    }
+  } else {
+    if (array[length-1] < 0) {
+      array[length-1] = -array[length-1];
+    }
+  }
+  result.push(array[length-1]);
+  return result;
 };
 
 // 36. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  var value = str[0];
+  var nums = {
+    '1': "one",
+    '2': "two",
+    '3': "three",
+    '4': "four",
+    '5': "five",
+    '6': "six",
+    '7': "seven",
+    '8': "eight",
+    '9': "nine",
+    '0': "zero"
+  }
+  if(value in nums){
+    value = nums[value];
+  }
+  if (str.length > 1) {
+    return value + numToText(str.slice(1));
+  } else {
+    return value;
+  }
 };
 
 
