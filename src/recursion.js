@@ -99,7 +99,6 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
-
   if (exp === 0) {
     return 1;
   } else {
@@ -238,21 +237,50 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+  if ((str1 === '' && str2 === '') || (str1.length === 1 && str2.length === 1 && str1 === str2)) {
+    return true;
+  } else {
+    if (str1[0] !== str2[0]) {
+      return false;
+    } else {
+      return compareStr(str1.substring(1), str2.substring(1));
+    }
+  }
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+  if (str.length === 0) {
+    return [];
+  }
+  if (str.length === 1) {
+    return [str[0]];
+  }
+  var result = str.substr(1);
+  return [str[0]].concat(createArray(result));
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  if (array.length === 0) {
+    return [];
+  }
+  if (array.length === 1) {
+    return [array[0]];
+  }
+  return [array.pop()].concat(reverseArr(array));
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  if (length === 0) {
+    return [];
+  } else {
+    return [value].concat(buildList(value, length-1));
+  }
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
@@ -261,12 +289,34 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+  if (n === 1) {
+    return ['1'];
+  }
+  var result = fizzBuzz(n-1);
+  if ((n % 3 === 0) && (n % 5 === 0)) {
+    result.push('FizzBuzz');
+  } else if (n%3 === 0) {
+    result.push('Fizz');
+  } else if (n%5 === 0) {
+    result.push('Buzz');
+  } else {
+    result.push(n + '');
+  }
+  return result;
 };
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  if (array.length === 0) {
+    return 0;
+  }
+  if (array[0] === value) {
+    return 1 + countOccurrence(array.slice(1, array.length), value);
+  } else {
+    return 0 + countOccurrence(array.slice(1, array.length), value);
+  }
 };
 
 // 21. Write a recursive version of map.
